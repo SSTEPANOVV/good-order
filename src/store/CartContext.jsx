@@ -32,7 +32,7 @@ function cartReducer(state, action) {
 
   if (action.type === "REMOVE_ITEM") {
     const existingCartItemIndex = state.items.findIndex(
-      (item) => item.id === action.item.id
+      (item) => item.id === action.id
     );
 
     const existingItem = state.items[existingCartItemIndex];
@@ -44,12 +44,12 @@ function cartReducer(state, action) {
     } else {
       const updatedItem = {
         ...existingItem,
-        quantity: existingCartItemIndex.quantity - 1,
+        quantity: existingItem.quantity - 1,
       };
       updatedItems[existingCartItemIndex] = updatedItem;
-
-      return { ...state, items: updatedItem };
     }
+
+    return { ...state, items: updatedItems };
   }
 
   return state;
@@ -68,7 +68,7 @@ export default function CartContextProvider({ children }) {
   function removeItem(id) {
     dispatchCartAction({
       type: "REMOVE_ITEM",
-      item,
+      id,
     });
   }
 
